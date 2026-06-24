@@ -30,7 +30,7 @@
   users.users.nixos_user = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    initialPassword = "Passw0rd!"
+    initialPassword = "Passw0rd!";
     packages = with pkgs; [
       tree
     ];
