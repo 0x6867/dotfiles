@@ -2,8 +2,8 @@
 
 
 {
-   home.username = "hemish";
-   home.homeDirectory = "/home/hemish";
+   home.username = "nixos_user";
+   home.homeDirectory = "/home/nixos_user";
    programs.git.enable = true;
    home.stateVersion = "26.05";
    programs.bash = {

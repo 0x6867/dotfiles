@@ -27,9 +27,10 @@
   time.timeZone = "America/Toronto";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.hemish = {
+  users.users.nixos_user = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    initialPassword = "Passw0rd!"
     packages = with pkgs; [
       tree
     ];
@@ -43,7 +44,7 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
-    wezterm
+    alacritty
   ];
 
  # enable COSMIC?

@@ -8,7 +8,7 @@
           type = "gpt";
           partitions = {
             ESP = {
-              size = "500M";
+              size = "1G";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -22,49 +22,46 @@
               content = {
                 type = "luks";
                 name = "crypted";
-                extraOpenArgs = [ ];
+                # disable settings.keyFile if you want to use interactive password entry
+                #passwordFile = "/tmp/secret.key"; # Interactive
                 settings = {
-                  # if you want to use the key for interactive login be sure there is no trailing newline
-                  # for example use `echo -n "password" > /tmp/secret.key`
-                  keyFile = "/tmp/secret.key";
                   allowDiscards = true;
+                  keyFile = "/tmp/secret.key";
                 };
-                # additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
+                #additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
                 content = {
-                  type = "lvm_pv";
-                  vg = "pool";
+                  type = "btrfs";
+                  extraArgs = [ "-f" ];
+                  subvolumes = {
+                    "/root" = {
+                      mountpoint = "/";
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
+                    };
+                    "/home" = {
+                      mountpoint = "/home";
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
+                    };
+                    "/nix" = {
+                      mountpoint = "/nix";
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
+                    };
+                    "/swap" = {
+                      mountpoint = "/.swapvol";
+                      swap.swapfile.size = "4G";
+                    };
+                  };
                 };
               };
             };
-          };
-        };
-      };
-    };
-    lvm_vg = {
-      pool = {
-        type = "lvm_vg";
-        lvs = {
-          root = {
-            size = "100%";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/";
-              mountOptions = [
-                "defaults"
-              ];
-            };
-          };
-          home = {
-            size = "10M";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/home";
-            };
-          };
-          raw = {
-            size = "10M";
           };
         };
       };
