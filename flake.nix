@@ -9,10 +9,10 @@
       disko = {
          url = "github:nix-community/disko";
          inputs.nixpkgs.follows = "nixpkgs";
-      }
+      };
    };
 
-   outputs = { self, nixpkgs, home-manager, ... }@attrs: {
+   outputs = { self, nixpkgs, home-manager, disko,... }@attrs: {
       nixosConfigurations.desktop-nix = nixpkgs.lib.nixosSystem {
          system = "x86_64-linux";
          specialArgs = attrs;
@@ -23,7 +23,7 @@
             home-manager = {
 	       useGlobalPkgs = true;
                useUserPackages = true;
-	       users.hemish = import ./home.nix;
+	       users.nixos_user = import ./home.nix;
 	       backupFileExtension = "backup";
 	       };
             }
