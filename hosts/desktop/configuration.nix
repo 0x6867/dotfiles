@@ -45,6 +45,22 @@
     wget
     git
     alacritty
+    #fd		# find alternative
+    #bc		# command line calculator
+    file	# identifies file type
+    #git-ignore	# git-ignore file?
+    #xdg-utils	# used for desktop environment settings
+    curl	# transfer data to or from using URLs
+    gnupg	# Encrypt and signs data using openpgp
+    openssl	# Crytpographic toolkit for TLS / SSL
+    vim		
+    #zip	# Compress into zip
+    #unzip	# unzip zip files
+    #optipng	# reduce size of png files
+    #jpegoptim	# optimize jpegs
+    pfetch	# system information tool
+    btop	# Interactive monitor for CPU memory and disk
+    p7zip 	# commandline port for 7zip
   ];
 
  # enable COSMIC?

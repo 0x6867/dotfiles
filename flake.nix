@@ -12,21 +12,22 @@
       };
    };
 
-   outputs = { self, nixpkgs, home-manager, disko,... }@attrs: {
-      nixosConfigurations.desktop-nix = nixpkgs.lib.nixosSystem {
-         system = "x86_64-linux";
-         specialArgs = attrs;
-         modules = [
-            disko.nixosModules.disko
-            ./configuration.nix
-	    home-manager.nixosModules.home-manager {
-            home-manager = {
-	       useGlobalPkgs = true;
-               useUserPackages = true;
-	       users.nixos_user = import ./home.nix;
-	       backupFileExtension = "backup";
-	       };
-            }
+   outputs = { self, nixpkgs, home-manager, disko,... } {
+      nixosConfigurations = {
+         desktop-nix = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+               disko.nixosModules.disko
+               ./hosts/desktop/configuration.nix
+	       home-manager.nixosModules.home-manager {
+               home-manager = {
+	          useGlobalPkgs = true;
+                  useUserPackages = true;
+	          users.nixos_user = import ./home/desktop.nix;
+	          backupFileExtension = "backup";
+	          };
+               }
+            };
          ];
       };
    };
