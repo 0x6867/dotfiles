@@ -76,13 +76,17 @@
  nix.settings.experimental-features = ["nix-command" "flakes"];
 
  
-   #Allow specific unfree packages
-   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg)[
-     "steam"
-     "steam-original"
-     "steam-unwrapped"
-     "steam-run"
-   ];
+ #Allow specific unfree packages
+ nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg)[
+   "steam"
+   "steam-original"
+   "steam-unwrapped"
+   "steam-run"
+   "discord-ptb"
+   "1password-cli"
+   "1password-gui"
+   "1password"
+ ];
  
 
   # Some programs need SUID wrappers, can be configured further or are
