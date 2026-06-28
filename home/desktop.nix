@@ -8,10 +8,10 @@
    home.stateVersion = "26.05";
    
    home.packages = [
-      pkgs.discord
-      pkgs._1password
+      pkgs.discord-ptb
+      pkgs._1password-cli
       pkgs._1password-gui
-   ]
+   ];
 
    programs.git.enable = true;
    programs.bash = {
