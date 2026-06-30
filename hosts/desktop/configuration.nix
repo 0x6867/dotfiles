@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       #"${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
       ./disk-config.nix
+      ../../modules/steam.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -61,6 +62,8 @@
     pfetch	# system information tool
     btop	# Interactive monitor for CPU memory and disk
     p7zip 	# commandline port for 7zip
+   # lm_sensors  # read hardware sensors
+   # watch	# 
   ];
 
  # enable COSMIC?
@@ -88,6 +91,25 @@
    "1password"
  ];
  
+#temp get rid of manoghud from all windows
+
+environment.variables = {
+  MANGOHUD_CONFIG = "no_display";
+};
+
+
+
+ #Graphics related stuff:
+ boot.initrd.kernelModules = ["amdgpu"];
+ hardware.graphics = {
+   enable = true;
+   enable32Bit = true;
+   extraPackages = with pkgs; [
+      rocmPackages.rocm-smi
+      #amdrst
+   ];
+ };
+ nixpkgs.config.packageOverrides = pkgs: { btop = pkgs.btop.override { rocmSupport = true; }; };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
