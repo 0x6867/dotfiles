@@ -36,8 +36,6 @@
         inputs.nixpkgs.follows = "nixpkgs";
      };
 
-
-
      #Private Repositories
      
    };
@@ -51,10 +49,10 @@
                ./hosts/desktop/configuration.nix
 	       home-manager.nixosModules.home-manager {
                   home-manager = {
-	          useGlobalPkgs = true;
-                  useUserPackages = true;
-	          users.nixos_user = import ./home/desktop.nix;
-	          backupFileExtension = "backup";
+  	            useGlobalPkgs = true;
+                    useUserPackages = true;
+	            users.nixos_user = import ./home/desktop.nix;
+	            backupFileExtension = "backup";
 	          };
                }
             ];

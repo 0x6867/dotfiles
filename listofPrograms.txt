@@ -1,0 +1,61 @@
+# List of Programs to install:
+
+## Virtualisation:
+
+[] Virt-Manager - https://nixos.wiki/wiki/Virt-manager
+[] Docker - https://wiki.nixos.org/wiki/Docker
+[] 
+
+## Dev?
+[x] NVIM
+[]   Basic Modules setup?
+[]     
+
+## Terminal related:
+
+[] Ghostty, Alacritty, WesTerm or WaveTerm?
+[]   Sensible config for terminal
+[] ZSH
+[]   OhMyZSH
+[]   Basic Modules
+[]     ?
+[x] FZF - Command Line Fuzzy Finder
+[x] EZA - Better LS
+[]    Configure EZA
+[x] BAT - Betteer CAT
+[]    Configure BAT
+[x] BTOP - Better System Resource Manager
+[] XfreeRDP - Remote Desktop
+[] RustDesk - OpenSource TeamViewer
+
+## Security & Isolation
+[] Firejail?
+[] Apparmor?
+[] Kasm?
+[] Some other MAC? - Doesn't seem to be really supported with NIX. This might be problematic?
+
+## HTTP Utils
+[] Curlie?
+[] Bruno? 
+[] Yaak?
+
+## Photography
+[] Gimp
+[] RapidRaw
+
+## Basic Security Tools
+[x] Nmap
+[x] WireShark
+[x] Burp Suite
+[x] Caido?
+[x] Hashcat
+
+## AI?
+
+[] olamma - https://wiki.nixos.org/wiki/Ollama
+[] 
+
+## Housekeeping
+
+[] Auto delete old gens
+[] 
