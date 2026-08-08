@@ -18,8 +18,8 @@
    
    programs.git = {
       enable = true;
-      userName = "0x6867;";
-      userEmail = "1156977+0x6867@users.noreply.github.com";
+      settings.user.name = "0x6867";
+      settings.user.email = "1156977+0x6867@users.noreply.github.com";
    };
 
 
