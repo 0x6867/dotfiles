@@ -21,6 +21,15 @@
       userName = "0x6867;";
       userEmail = "1156977+0x6867@users.noreply.github.com";
    };
+
+
+   programs.gh =  {
+     enable = true;
+     gitCredentialHelper = {
+       enable = true;
+    }; 
+   };
+
    programs.bash = {
       enable = true;
       shellAliases = {
