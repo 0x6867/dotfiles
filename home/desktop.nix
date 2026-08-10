@@ -9,6 +9,7 @@
      ../modules/communication.nix
      ../modules/media.nix
      ../modules/passManager.nix
+     ../modules/browsers.nix
    ];
 
    # Basic Home Manager Requirements
