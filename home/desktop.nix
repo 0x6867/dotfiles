@@ -8,8 +8,8 @@
      #../modules/development.nix
      ../modules/communication.nix
      ../modules/media.nix
-     ../modules/passManager.nix
-     ../modules/browsers.nix
+     ../modules/1password.nix
+     ../modules/firefox.nix
    ];
 
    # Basic Home Manager Requirements

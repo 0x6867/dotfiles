@@ -37,40 +37,19 @@
     ];
   };
 
-  #programs.firefox.enable = true;
-
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
-    alacritty
-    #fd		# find alternative
-    #bc		# command line calculator
     file	# identifies file type
-    #git-ignore	# git-ignore file?
-    #xdg-utils	# used for desktop environment settings
     curl	# transfer data to or from using URLs
     gnupg	# Encrypt and signs data using openpgp
-    openssl	# Crytpographic toolkit for TLS / SSL
     vim		
-    #zip	# Compress into zip
-    #unzip	# unzip zip files
-    #optipng	# reduce size of png files
-    #jpegoptim	# optimize jpegs
-    pfetch	# system information tool
-    btop	# Interactive monitor for CPU memory and disk
-    p7zip 	# commandline port for 7zip
-    neovim
-    fzf		# Fuzzy finder
-    eza		# Better LS
-    bat		# Better cat
-   # lm_sensors  # read hardware sensors
-   # watch	# 
   ];
 
- # enable COSMIC?
+ # enable COSMIC Desktop DE
  services.displayManager.cosmic-greeter.enable = true;
  services.desktopManager.cosmic.enable = true;
 
@@ -84,41 +63,45 @@
 
  
  #Allow specific unfree packages
- nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg)[
-   # NixOS Sytem Packages
-   "steam"
-   "steam-original"
-   "steam-unwrapped"
-   "steam-run"
+# nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg)[
+#   # NixOS Sytem Packages
+#   "steam"
+#   "steam-original"
+#   "steam-unwrapped"
+#   "steam-run"
+#
+#   # Home Manager User Packages 
+#   "discord-ptb"
+#   "1password-cli"
+#   "1password-gui"
+#   "1password"
+#   "obsidian"
+#   "caido-desktop"
+#   "burpsuite"
+# ];
 
-   # Home Manager User Packages 
-   "discord-ptb"
-   "1password-cli"
-   "1password-gui"
-   "1password"
-   "obsidian"
-   "caido-desktop"
-   "burpsuite"
- ];
- 
+ #Global allow unfree packages because it's a pain to maintain allowlist
+nixpkgs.config.allowUnfree = true;
+
 #temp get rid of manoghud from all windows
 
 environment.variables = {
   MANGOHUD_CONFIG = "no_display";
 };
 
- #Graphics related stuff:
- boot.initrd.kernelModules = ["amdgpu"];
- hardware.graphics = {
-   enable = true;
-   enable32Bit = true;
-   extraPackages = with pkgs; [
-      rocmPackages.rocm-smi
-      #amdrst
+#Graphics related stuff:
+boot.initrd.kernelModules = ["amdgpu"];
+hardware.graphics = {
+  enable = true;
+  enable32Bit = true;
+  extraPackages = with pkgs; [
+     rocmPackages.rocm-smi
+     #amdrst
    ];
  };
- nixpkgs.config.packageOverrides = pkgs: { btop = pkgs.btop.override { rocmSupport = true; }; };
+nixpkgs.config.packageOverrides = pkgs: { btop = pkgs.btop.override { rocmSupport = true; }; }; #no idea what this is for
 
-  system.stateVersion = "26.05"; # Did you read the comment?
+#system stateversion on creation
+system.stateVersion = "26.05"; # Did you read the comment?
 }
 
