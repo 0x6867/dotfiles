@@ -63,6 +63,20 @@
                }
             ];
          };
+         mbp2015-linux = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+               ./hosts/mbp2015-linux/configuration.nix
+               home-manager.nixosModules.home-manager {
+                  home-manager = {
+                     useGlobalPkgs = true;
+                     useUserPackages = true;
+                     users.nixos_user = import ./home/mbp2015-linux.nix;
+                     backupFileExtension = "backup";
+                  };
+               }
+            ];
+         };
       };
       darwinConfigurations = {
          macbook-nix = darwin.lib.darwinSystem {
