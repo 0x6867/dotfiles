@@ -108,9 +108,6 @@ nix flake update [input-name]
 
 ## Known issues / gotchas
 
-- `home/desktop.nix` imports `../modules/cli_tools.nix`, which does not
-  exist in the repo — the import is currently commented state (verify
-  before adding it back or deleting the line).
 - `flake.nix` sets `users.nix_dev = ./home/macbook.nix`, but the file is
   actually `home/laptop.nix`. Resolve this inconsistency if touching darwin.
 - `hosts/macbook/darwin-configuration.nix` and `home/laptop.nix` are empty

@@ -4,7 +4,7 @@
 
    imports = [
      ../modules/basic_security_tools.nix
-     ../modules/cli_tools.nix
+     #../modules/cli_tools.nix
      #../modules/development.nix
      ../modules/communication.nix
      ../modules/media.nix

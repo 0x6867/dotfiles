@@ -14,8 +14,8 @@
 
       # Darwin (Mac) Nix package manager
       darwin = {
-	url = "github:nix-darwin/nix-darwin";
-	inputs.nixpkgs.follows = "nixpkgs";
+          url = "github:nix-darwin/nix-darwin";
+          inputs.nixpkgs.follows = "nixpkgs";
       };
       # Home manager
       home-manager = {
@@ -47,51 +47,51 @@
    };
 
    outputs = { self, nixpkgs, darwin, home-manager, disko, ... }: {
-      nixosConfigurations = {
-         desktop-nix = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-               disko.nixosModules.disko
-               ./hosts/desktop/configuration.nix
-	       home-manager.nixosModules.home-manager {
-                  home-manager = {
-  	            useGlobalPkgs = true;
-                    useUserPackages = true;
-	            users.nixos_user = import ./home/desktop.nix;
-	            backupFileExtension = "backup";
-	          };
-               }
-            ];
-         };
-         mbp2015-linux = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-               ./hosts/mbp2015-linux/configuration.nix
-               home-manager.nixosModules.home-manager {
-                  home-manager = {
-                     useGlobalPkgs = true;
-                     useUserPackages = true;
-                     users.nixos_user = import ./home/mbp2015-linux.nix;
-                     backupFileExtension = "backup";
-                  };
-               }
-            ];
-         };
-      };
-      darwinConfigurations = {
-         macbook-nix = darwin.lib.darwinSystem {
-	   system = "x86_64-darwin";
-	   modules = [
-	     ./hosts/macbook/darwin-configuration.nix
-	     home-manager.darwinModules.home-manager {
-	       home-manager = {
-	         useGlobalpkgs = true;
-		 useUserPackages = true;
-		 users.nix_dev = ./home/macbook.nix;
-	       };
-	     }
-	   ];
-	};
-      };
+       nixosConfigurations = {
+           desktop-nix = nixpkgs.lib.nixosSystem {
+               system = "x86_64-linux";
+               modules = [
+                   disko.nixosModules.disko
+                       ./hosts/desktop/configuration.nix
+                       home-manager.nixosModules.home-manager {
+                           home-manager = {
+                               useGlobalPkgs = true;
+                               useUserPackages = true;
+                               users.nixos_user = import ./home/desktop.nix;
+                               backupFileExtension = "backup";
+                           };
+                       }
+               ];
+           };
+           mbp2015-linux = nixpkgs.lib.nixosSystem {
+           system = "x86_64-linux";
+               modules = [
+                   ./hosts/mbp2015-linux/configuration.nix
+                       home-manager.nixosModules.home-manager {
+                          home-manager = {
+                              useGlobalPkgs = true;
+                              useUserPackages = true;
+                              users.nixos_user = import ./home/mbp2015-linux.nix;
+                              backupFileExtension = "backup";
+                          };
+                       }
+               ];
+           };
+       };
+       darwinConfigurations = {
+           macbook-nix = darwin.lib.darwinSystem {
+               system = "x86_64-darwin";
+               modules = [
+                   ./hosts/macbook/darwin-configuration.nix
+                       home-manager.darwinModules.home-manager {
+                           home-manager = {
+                               useGlobalpkgs = true;
+                               useUserPackages = true;
+                               users.nix_dev = ./home/macbook.nix;
+                           };
+                       }
+               ];
+           };
+       };
    };
 }
