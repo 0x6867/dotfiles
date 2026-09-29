@@ -14,13 +14,13 @@
 
       # Darwin (Mac) Nix package manager
       darwin = {
-	url = "github:nix-darwin/nix-darwin";
-	inputs.nixpkgs.follows = "nixpkgs";
+	 url = "github:nix-darwin/nix-darwin";
+	 inputs.nixpkgs.follows = "nixpkgs";
       };
       # Home manager
       home-manager = {
-      	url = "github:nix-community/home-manager/release-26.05";
-        inputs.nixpkgs.follows = "nixpkgs";
+         url = "github:nix-community/home-manager/release-26.05";
+         inputs.nixpkgs.follows = "nixpkgs";
       };
 
       # Utilities
@@ -32,15 +32,15 @@
      
       # nix-index-database 
       nix-index-database = {
-        url = "github:nix-community/nix-index-database";
-        inputs.nixpkgs.follows = "nixpkgs";
+         url = "github:nix-community/nix-index-database";
+         inputs.nixpkgs.follows = "nixpkgs";
       };
      
-     # For Secrets Management (unused atm)
-     sopsnix = {
-        url = "github:mic92/sops-nix";
-        inputs.nixpkgs.follows = "nixpkgs";
-     };
+      # For Secrets Management (unused atm)
+      sopsnix = {
+         url = "github:mic92/sops-nix";
+         inputs.nixpkgs.follows = "nixpkgs";
+      };
 
      #Private Repositories
      
@@ -79,19 +79,19 @@
          };
       };
       darwinConfigurations = {
-         macbook-nix = darwin.lib.darwinSystem {
+           macbook-nix = darwin.lib.darwinSystem {
 	   system = "x86_64-darwin";
 	   modules = [
 	     ./hosts/macbook/darwin-configuration.nix
 	     home-manager.darwinModules.home-manager {
 	       home-manager = {
 	         useGlobalpkgs = true;
-		 useUserPackages = true;
+                 useUserPackages = true;
 		 users.nix_dev = ./home/macbook.nix;
 	       };
 	     }
 	   ];
-	};
+	 };
       };
    };
 }
