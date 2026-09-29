@@ -76,22 +76,26 @@ nix flake update [input-name]
 - State this explicitly before editing:
   `Target config: <name>. Validation host: <machine/OS>. Planned verification: <command>.`
 
-## Always validate with eval
+## Always validate with flake check
 
-- After every Nix change, run a matching `nix eval` against the exact target
-  output before claiming success.
-- Preferred eval targets for this repo:
-  - NixOS: `nix eval .#nixosConfigurations.desktop-nix.config.system.build.toplevel.drvPath`
-    and `nix eval .#nixosConfigurations.mbp2015-linux.config.system.build.toplevel.drvPath`
-  - Darwin: `nix eval .#darwinConfigurations.macbook-nix.config.system.build.toplevel.drvPath`
-    (once the darwin config is filled in — it is currently an empty placeholder)
-  - Home Manager (wired inside the host configs, not a top-level
-    `homeConfigurations` output):
-    `nix eval .#nixosConfigurations.desktop-nix.config.home-manager.users.nixos_user.home.activationPackage.drvPath`
-- When practical, follow eval with the matching dry-run/build command
-  (`nixos-rebuild build --flake .#desktop-nix`, `darwin-rebuild build` once
-  darwin exists, or `nix flake check`). Eval is the minimum bar, not the
-  whole test plan.
+- After every change, run exactly one verification command:
+
+  ```bash
+  nix flake check --no-build
+  ```
+
+- Do not run other `nix` commands (no `nix build`, no `nixos-rebuild`, no
+  ad-hoc `nix eval`). `nix flake check --no-build` evaluates every target's
+  module system, so it surfaces option errors, type errors and failed
+  assertions.
+- Report the raw result. Two known, expected outcomes:
+  - `desktop-nix`: must pass clean.
+  - `mbp2015-linux`: expected to fail with
+    `The 'fileSystems' option does not specify your root file system.`
+    because `hardware-configuration.nix` is not committed. Any *other*
+    error is a real regression.
+- `--no-build` does not compile derivations. A clean check does not prove
+  that packages build or that runtime path/symlink targets are correct.
 
 ## Conventions
 
@@ -124,8 +128,8 @@ nix flake update [input-name]
 
 ## Rules for agents
 
-1. Run the matching `nix eval` (see "Always validate with eval") after every
-   change, and run `nix flake check` when practical — report both results.
+1. Run `nix flake check --no-build` (see "Always validate with flake check")
+   after every change and report the raw result.
 2. Prefer editing an existing module over adding a new import; if you add a
    module, add the import to the relevant `home/*.nix` in the same change.
 3. Do not silently change user names, stateVersion, or the unfree policy —

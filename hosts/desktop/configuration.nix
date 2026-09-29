@@ -11,6 +11,10 @@
       #"${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
       ./disk-config.nix
       ../../modules/steam.nix
+      ../../modules/system/shell.nix
+      ../../modules/system/docker.nix
+      ../../modules/system/virt-manager.nix
+      ../../modules/system/housekeeping.nix
     ];
 
   # Use the systemd-boot EFI boot loader.

@@ -30,8 +30,12 @@ setopt NUMERIC_GLOB_SORT  # sort file10 after file9, not after file1
 # Smart directory navigation & lf
 # =========================================================
 
-LF_ICONS=$(cat ~/.config/lf/icons | tr '\n' ':')
-export LF_ICONS
+# Guarded: the icons file is optional, and without the guard a missing file
+# makes `cat` fail noisily on every shell start.
+if [[ -f ~/.config/lf/icons ]]; then
+  LF_ICONS=$(tr '\n' ':' < ~/.config/lf/icons)
+  export LF_ICONS
+fi
 
 # Initialize zoxide
 eval "$(zoxide init zsh)"
@@ -58,7 +62,15 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # lowercase input matche
 # Fuzzy finder
 # =========================================================
 
-if [[ -f /usr/local/opt/fzf/shell/key-bindings.zsh ]]; then
+# Nix first: nixpkgs' fzf ships an `fzf-share` helper that prints its
+# share/fzf directory, which holds both files. Homebrew's fixed path (macOS)
+# is kept as a fallback.
+if command -v fzf-share >/dev/null 2>&1; then
+  _fzf_share="$(fzf-share)"
+  [[ -f "$_fzf_share/key-bindings.zsh" ]] && source "$_fzf_share/key-bindings.zsh"
+  [[ -f "$_fzf_share/completion.zsh" ]] && source "$_fzf_share/completion.zsh"
+  unset _fzf_share
+elif [[ -f /usr/local/opt/fzf/shell/key-bindings.zsh ]]; then
   source /usr/local/opt/fzf/shell/key-bindings.zsh
   source /usr/local/opt/fzf/shell/completion.zsh
 fi
