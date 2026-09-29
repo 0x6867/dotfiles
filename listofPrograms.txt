@@ -2,35 +2,35 @@
 
 ## Virtualisation:
 
-[] Virt-Manager - https://nixos.wiki/wiki/Virt-manager
-[] Docker - https://wiki.nixos.org/wiki/Docker
+[x] Virt-Manager - https://nixos.wiki/wiki/Virt-manager
+[x] Docker - https://wiki.nixos.org/wiki/Docker
 
 ## Dev?
-[] NVIM
-[]   Basic Modules setup?
+[x] NVIM
+[x]   Basic Modules setup?
 []     
 
 ## Terminal related:
 
-[] ZSH
-[]   Basic Modules
-[] FZF - Command Line Fuzzy Finder
-[] EZA - Better LS
-[]    Configure EZA
-[] BAT - Betteer CAT
-[]    Configure BAT
-[] BTOP - Better System Resource Manager
-[] RustDesk - OpenSource TeamViewer
+[x] ZSH
+[x]   Basic Modules
+[x] FZF - Command Line Fuzzy Finder
+[x] EZA - Better LS
+[x]    Configure EZA
+[x] BAT - Betteer CAT
+[x]    Configure BAT
+[x] BTOP - Better System Resource Manager
+[x] RustDesk - OpenSource TeamViewer
 
 ## Security & Isolation
 
 ## HTTP Utils
-[] Bruno? 
-[] Yaak?
+[x] Bruno? 
+[x] Yaak?
 
 ## Photography
-[] Gimp
-[] RapidRaw
+[x] Gimp
+[x] RapidRaw
 
 ## Basic Security Tools
 [x] Nmap
@@ -41,8 +41,8 @@
 
 ## AI?
 
-[] llama.cpp 
+[x] llama.cpp 
 
 ## Housekeeping
 
-[] Auto delete old generations
+[x] Auto delete old generations
