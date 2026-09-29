@@ -30,7 +30,7 @@ config.font = wezterm.font {
   weight = 'Medium',
   harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }, -- disable ligatures
 }
-config.font_size = 14.0
+config.font_size = 12.0
 config.line_height = 1.0
 
 --theme
@@ -42,7 +42,7 @@ config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
 -- config.color_scheme = "Catppuccin Mocha" -- or Macchiato, Frappe, Latte
 -- padding
 
-config.window_padding = { left = '0.5cell', right = '0.5cell', top = '0.5cell', bottom = '0.5cell' }
+config.window_padding = { left = '0', right = '0', top = '0', bottom = '1cell' }
 config.default_cursor_style = 'BlinkingUnderline'
 
 config.animation_fps = 1

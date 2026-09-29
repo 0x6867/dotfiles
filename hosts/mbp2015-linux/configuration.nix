@@ -68,7 +68,7 @@
     jack.enable = true; 
   };
   # Ensure old pulse is disabled
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   # enable experimental features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
