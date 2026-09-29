@@ -2,46 +2,35 @@
 
 ## Virtualisation:
 
-[] Virt-Manager - https://nixos.wiki/wiki/Virt-manager
-[] Docker - https://wiki.nixos.org/wiki/Docker
-[] 
+[x] Virt-Manager - https://nixos.wiki/wiki/Virt-manager
+[x] Docker - https://wiki.nixos.org/wiki/Docker
 
 ## Dev?
 [x] NVIM
-[]   Basic Modules setup?
+[x]   Basic Modules setup?
 []     
 
 ## Terminal related:
 
-[] Ghostty, Alacritty, WesTerm or WaveTerm?
-[]   Sensible config for terminal
-[] ZSH
-[]   OhMyZSH
-[]   Basic Modules
-[]     ?
+[x] ZSH
+[x]   Basic Modules
 [x] FZF - Command Line Fuzzy Finder
 [x] EZA - Better LS
-[]    Configure EZA
+[x]    Configure EZA
 [x] BAT - Betteer CAT
-[]    Configure BAT
+[x]    Configure BAT
 [x] BTOP - Better System Resource Manager
-[] XfreeRDP - Remote Desktop
-[] RustDesk - OpenSource TeamViewer
+[x] RustDesk - OpenSource TeamViewer
 
 ## Security & Isolation
-[] Firejail?
-[] Apparmor?
-[] Kasm?
-[] Some other MAC? - Doesn't seem to be really supported with NIX. This might be problematic?
 
 ## HTTP Utils
-[] Curlie?
-[] Bruno? 
-[] Yaak?
+[x] Bruno? 
+[x] Yaak?
 
 ## Photography
-[] Gimp
-[] RapidRaw
+[x] Gimp
+[x] RapidRaw
 
 ## Basic Security Tools
 [x] Nmap
@@ -52,10 +41,8 @@
 
 ## AI?
 
-[] olamma - https://wiki.nixos.org/wiki/Ollama
-[] 
+[x] llama.cpp 
 
 ## Housekeeping
 
-[] Auto delete old gens
-[] 
+[x] Auto delete old generations

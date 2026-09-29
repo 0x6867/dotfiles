@@ -8,6 +8,10 @@
   # install time on the machine itself — not committed to the repo yet.
   imports = [
     ./hardware-configuration.nix
+    ../../modules/system/shell.nix
+    ../../modules/system/docker.nix
+    ../../modules/system/virt-manager.nix
+    ../../modules/system/housekeeping.nix
   ];
 
   # UEFI boot: the Mac's EFI firmware works with systemd-boot.

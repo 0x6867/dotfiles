@@ -1,5 +1,4 @@
-
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
 
@@ -10,8 +9,17 @@
     viAlias = true;
     vimAlias = true;
 
+    # `initLua` and `sideloadInitLua` are deliberately left unset: the
+    # external config below owns init.lua, and setting either option would
+    # make home-manager write into ~/.config/nvim on top of the symlink.
+
     #plugins:
     #plugins = with pkgs.vimPlugins;
   };
+
+  # Live, out-of-store symlink so config/nvim/init.lua and basic/*.lua are
+  # read from the repo checkout and stay editable without a rebuild.
+  xdg.configFile."nvim".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.root}/config/nvim";
 
 }
