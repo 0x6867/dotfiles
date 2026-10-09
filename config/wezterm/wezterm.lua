@@ -15,8 +15,8 @@ config.keys = {
 
   { key = 'd', mods = 'CMD|SHIFT', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
   { key = 'd', mods = 'CMD', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
-  { key = 'w', mods = 'CMD|SHIFT', action = act.CloseCurrentTab { confirm = false } },
-  { key = 'w', mods = 'CMD', action = act.CloseCurrentPane { confirm = false } },
+  { key = 'w', mods = 'CTRL|SHIFT', action = act.CloseCurrentTab { confirm = false } },
+  { key = 'w', mods = 'CTRL', action = act.CloseCurrentPane { confirm = false } },
   { key = 'p', mods = 'CMD|SHIFT', action = act.ActivateCommandPalette },
 }
 
