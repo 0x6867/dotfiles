@@ -12,6 +12,7 @@
     ../../modules/system/docker.nix
     ../../modules/system/virt-manager.nix
     ../../modules/system/housekeeping.nix
+    ../../modules/system/audio.nix
   ];
 
   # UEFI boot: the Mac's EFI firmware works with systemd-boot.
@@ -52,23 +53,24 @@
   #enable COSMIC Desktop DE
   services.displayManager.cosmic-greeter.enable = true;
   services.desktopManager.cosmic.enable = true;
+  services.system76-scheduler.enable = true;
 
   # fonts
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
 
-  #Temp see if this fixes audio
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true; 
-  };
+#  #Temp see if this fixes audio
+#  security.rtkit.enable = true;
+#  services.pipewire = {
+#    enable = true;
+#    alsa.enable = true;
+#    alsa.support32Bit = true;
+#    pulse.enable = true;
+#    jack.enable = true; 
+#  };
   # Ensure old pulse is disabled
-  services.pulseaudio.enable = false;
+#  services.pulseaudio.enable = false;
 
   # enable experimental features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
