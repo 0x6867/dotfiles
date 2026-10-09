@@ -2,14 +2,14 @@
     state: Enabled,
     acceleration: Some((
         profile: Some(Adaptive),
-        speed: -0.14531325130816009,
+        speed: -0.032175081318059684,
     )),
     click_method: Some(Clickfinger),
     scroll_config: Some((
         method: Some(TwoFinger),
         natural_scroll: Some(false),
         scroll_button: None,
-        scroll_factor: Some(0.32987697769322355),
+        scroll_factor: Some(0.7071067811865476),
     )),
     tap_config: Some((
         enabled: false,
