@@ -13,6 +13,8 @@
     ../../modules/system/virt-manager.nix
     ../../modules/system/housekeeping.nix
     ../../modules/system/audio.nix
+    ../../modules/system/cosmic.nix
+    #../../modules/system/niri.nix
   ];
 
   # UEFI boot: the Mac's EFI firmware works with systemd-boot.
@@ -45,32 +47,13 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
-  #  file   # identifies file type
     curl   # transfer data to or from using URLs
-  #  gnupg  # Encrypt and signs data using openpgp
   ];
-
-  #enable COSMIC Desktop DE
-  services.displayManager.cosmic-greeter.enable = true;
-  services.desktopManager.cosmic.enable = true;
-  services.system76-scheduler.enable = true;
 
   # fonts
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
-
-#  #Temp see if this fixes audio
-#  security.rtkit.enable = true;
-#  services.pipewire = {
-#    enable = true;
-#    alsa.enable = true;
-#    alsa.support32Bit = true;
-#    pulse.enable = true;
-#    jack.enable = true; 
-#  };
-  # Ensure old pulse is disabled
-#  services.pulseaudio.enable = false;
 
   # enable experimental features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -79,13 +62,10 @@
   nixpkgs.config.allowUnfree = true;
 
   # Broadcom BCM4360 wifi needs redistributable firmware — the classic
-  # 2015-MacBook-Pro gotcha (see agents.md). If wifi still doesn't come up,
-  # the Apple-specific brcmfmac firmware blob may be required.
+  # 2015-MacBook-Pro gotcha (see agents.md). 
   hardware.enableRedistributableFirmware = true;
 
   # Graphics: driven by the Intel iGPU (i915) out of the box.
-  # No amdgpu config (unlike the desktop) — the discrete AMD chip stays
-  # dormant on Linux, and COSMIC is intentionally not enabled here.
 
   system.stateVersion = "26.05";
 }
