@@ -12,6 +12,8 @@
   # Optional: Additional COSMIC-related packages or tools
   environment.systemPackages = with pkgs; [
     # Add any extra tools or packages you want alongside COSMIC
-    cosmic-ext-calendar
+    #cosmic-ext-calendar
+    cosmic-ext-calculator
+    cosmic-store
   ];
 }
