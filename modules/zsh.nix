@@ -18,14 +18,22 @@
   # 4. Installing pkgs.zsh here gives the user a zsh on PATH even before the
   #    system module is imported (e.g. in a home-manager-only build).
   #
-  # ~/.zshenv is the one file zsh reads before it picks $ZDOTDIR, so this is
-  # where ZDOTDIR has to be set. It is written by home-manager (not symlinked),
-  # which is why it lives at $HOME rather than inside the symlinked directory.
+  # ZDOTDIR is set system-wide in modules/system/shell.nix
+  # (`programs.zsh.shellInit`, which lands in /etc/zshenv). That file is read
+  # before zsh picks any user startup file, so zsh goes straight to
+  # ~/.config/zsh/.zshenv and reads it exactly once.
+  #
+  # Do NOT reintroduce a ~/.zshenv here. A file at $HOME/.zshenv is what zsh
+  # reads first, and it then *shadows* the repo's config/zsh/.zshenv — zsh
+  # never reads $ZDOTDIR/.zshenv as well. That was the original bug:
+  # XDG_STATE_HOME went unset, so HISTFILE became "/zsh/history" and no
+  # history was ever saved.
 
-  home.file.".zshenv".text = ''
-    # Managed by home-manager — points zsh at the dotfiles repo.
-    export ZDOTDIR="${config.home.homeDirectory}/.config/zsh"
-  '';
+  # zsh does not create parent directories for HISTFILE or for the compinit
+  # dump, so a missing directory means history is silently never written.
+  # Mirrors radleylewis/zsh setup step 4.
+  xdg.stateFile."zsh/.keep".text = "";
+  xdg.cacheFile."zsh/.keep".text = "";
 
   # Live, out-of-store symlink to the working copy, so edits to the repo apply
   # without a rebuild. mkOutOfStoreSymlink is only a symlink to the path string

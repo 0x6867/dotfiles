@@ -14,12 +14,47 @@ A flake-based personal dotfiles/Nix config managing:
   2015 Intel MacBook Pro: systemd-boot, Intel iGPU (no amdgpu/COSMIC),
   Broadcom wifi firmware enabled.
 - **nix-darwin** (macbook, `x86_64-darwin`, hostname `macbook-nix`) —
-  a non-functional placeholder: it does not evaluate today for four separate
-  reasons. See "Known issues" §1 and §2 before touching anything darwin.
+  **out of scope placeholder, do not touch.** This laptop will become a NixOS
+  (t2linux) host, so the darwin scaffolding will be replaced rather than
+  repaired. See "Scope" below.
 - **home-manager** (release-26.05) user environments for both hosts.
 
 All inputs follow `nixpkgs` (branch `nixos-26.05`). Flakes
 experimental features are required by every command below.
+
+## Scope: ignore darwin and this MacBook
+
+**Agent work targets the two NixOS machines only:**
+
+| Target | Home config | Host config |
+|---|---|---|
+| `nixosConfigurations.desktop-nix` | `home/desktop.nix` | `hosts/desktop/` |
+| `nixosConfigurations.mbp2015-linux` | `home/mbp2015-linux.nix` | `hosts/mbp2015-linux/` |
+
+Everything darwin-related is a **throwaway placeholder** and must be left
+alone:
+
+- the `darwinConfigurations.macbook-nix` output and the `darwin` flake input
+  in `flake.nix`
+- `hosts/macbook/darwin-configuration.nix`
+- `home/macbook.nix` (currently 0 bytes — this is expected, not a bug to fix)
+
+This machine will eventually run **NixOS (t2linux), not nix-darwin**, so the
+existing darwin scaffolding will be rewritten from scratch rather than
+repaired. Do not fix, extend, tidy, migrate or debug it.
+
+Two consequences worth stating explicitly:
+
+- **Do not "repair" the darwin target.** Its known defects (empty config
+  files, a nix-darwin/nixpkgs release-branch mismatch, a `useGlobalpkgs`
+  typo) are all going to be deleted along with it. Leave them.
+- **A passing `nix flake check --no-build` says nothing about darwin** — the
+  check lists `darwinConfigurations` but never evaluates it. That is not a
+  gap to be closed; darwin isn't a supported target.
+
+**Rule of thumb:** if a task appears to require touching `home/macbook.nix`,
+`hosts/macbook/`, or the `darwinConfigurations` output, stop and ask. The
+answer is almost always "not now — placeholder for the future t2linux host."
 
 ## Layout
 
@@ -31,10 +66,10 @@ experimental features are required by every command below.
 | `hosts/desktop/disk-config.nix` | Disko declarative partitioning (used only at install time) |
 | `hosts/desktop/hardware-configuration.nix` | Machine-generated; do not hand-edit except via `nixos-generate-config` |
 | `hosts/mbp2015-linux/configuration.nix` | NixOS config for the 2015 MacBook Pro (systemd-boot, wifi firmware, Intel iGPU) |
-| `hosts/macbook/darwin-configuration.nix` | Darwin system config — 1 byte, does not evaluate (see §1b) |
+| `hosts/macbook/darwin-configuration.nix` | Darwin system config — 1 byte; out of scope placeholder (see "Scope") |
 | `home/desktop.nix` | Home-manager config for user `nixos_user` (imports `modules/*`) |
 | `home/mbp2015-linux.nix` | Home-manager config for user `nixos_user` on the MBP (imports `modules/*`) |
-| `home/laptop.nix` | Home-manager config for darwin user — 0 bytes; not even the file `flake.nix` imports (see §1a, §1b) |
+| `home/macbook.nix` | Home-manager config for darwin user — 0 bytes; out of scope placeholder (see "Scope") |
 | `modules/` | Shared, importable home-manager modules (one per app/tool) |
 | `README.md` | Disk-install (disko) quickstart |
 
@@ -70,7 +105,7 @@ nix flake update [input-name]
 - Do not assume the edited path name matches the flake output. Examples:
   `home/desktop.nix` / `home/mbp2015-linux.nix` → user `nixos_user` under
   `nixosConfigurations.desktop-nix` / `nixosConfigurations.mbp2015-linux`;
-  `home/laptop.nix` → user `nix_dev` under
+  `home/macbook.nix` → user `nix_dev` under
   `darwinConfigurations.macbook-nix`; `modules/*` are imported from
   `home/*.nix` and affect whichever host imports them.
 - State this explicitly before editing:
@@ -103,7 +138,7 @@ nix flake update [input-name]
   `throw "DARWIN WAS EVALUATED"`: the check still reported
   `all checks passed!` with exit 0, while
   `nix eval .#darwinConfigurations.macbook-nix.system` failed instantly.
-  So a green check is **no evidence at all** about darwin — see known issue 2.
+  So a green check is **no evidence at all** about darwin — see "Scope".
 
 ## Conventions
 
@@ -121,86 +156,20 @@ nix flake update [input-name]
 ## Known issues / gotchas
 
 Each entry below is a **pending issue**: something currently wrong or
-incomplete in this repo that is deliberately left as-is. They are ordered by
-how much they block. None of them affect `desktop-nix`, which is the only
-target that both evaluates today and is actually provisioned.
+incomplete in this repo that is deliberately left as-is. Item 1 is out of
+scope and needs no action; the rest affect the NixOS hosts.
 
-### 1. Darwin has four stacked defects (was: "empty placeholders")
+### 1. Darwin / macbook — out of scope, deliberately not fixed
 
-All four must be fixed before `darwinConfigurations.macbook-nix` can
-evaluate. Symptom order differs from fix order: 1c aborts evaluation first,
-and it masks 1a, 1b and 1d, so you will not see the rest until 1c is
-resolved.
+Not a bug to chase. This laptop becomes a NixOS (t2linux) host, so the whole
+darwin target is throwaway and will be replaced wholesale (see "Scope"). Its
+defects — an empty `home/macbook.nix`, a 1-byte
+`hosts/macbook/darwin-configuration.nix`, a nix-darwin 26.11 vs nixpkgs 26.05
+release-branch mismatch, and a `useGlobalpkgs` typo at `flake.nix:87` — are
+left exactly as they are. `nix flake check` never evaluates
+`darwinConfigurations`, so a green check says nothing about it.
 
-**1a. `flake.nix` imports a file that does not exist.**
-`flake.nix:90` reads `users.nix_dev = ./home/macbook.nix`, but there is no
-`home/macbook.nix` in the repo. The home-manager config for the darwin user
-was written to `home/laptop.nix` instead. The mismatch is between the flake's
-path and the file's name, so any attempt to evaluate the darwin user fails
-with a missing-file error before any option is even checked.
-
-**1b. Both darwin files are syntactically invalid, not merely "empty".**
-A Nix file must contain at least one expression, so a zero/tiny file is a
-*syntax error*, not an empty config:
-
-- `home/laptop.nix` is **0 bytes**.
-- `hosts/macbook/darwin-configuration.nix` is **1 byte** (a single newline).
-
-Verified by importing comparable files: both produce
-`error: syntax error, unexpected end of file`. Note this corrects the earlier
-wording in this document — these fail loudly rather than "producing empty
-configs". Both files need at least a `{ ... }: { }` skeleton (the convention
-in every other `home/*.nix` and `hosts/*/configuration.nix`).
-
-**1c. The nix-darwin and nixpkgs release branches do not match.**
-`flake.lock` pins nix-darwin at `57a3171f9470`, which is a **26.11** branch,
-while `nixpkgs` is on **26.05**. nix-darwin now enforces that the two
-releases correspond, so evaluation aborts at `eval-config.nix:25`:
-
-```
-error: nix-darwin now uses release branches that correspond to Nixpkgs releases.
-The nix-darwin and Nixpkgs branches in use must match, but you are currently
-using nix-darwin 26.11 with Nixpkgs 26.05.
-```
-
-This error fires *before* 1a and 1b are ever reached, so in practice it is
-the first thing you will see. The matching branch for NixOS 26.05 is
-`nix-darwin-26.05`. **Do not fix this by hand-editing `flake.lock`**
-(Rule 5) — it needs a deliberate input/release decision from the user, and
-note this repo mixes release channels (`home-manager` is already on
-`release-26.05`).
-
-**1d. `useGlobalpkgs` is misspelled and would be a hard error.**
-`flake.nix:88` (darwin only) sets `useGlobalpkgs`, but the home-manager option
-is `useGlobalPkgs` — lowercase `p`, capital `P`. home-manager does not use a
-freeform type here, so the option genuinely does not exist. Confirmed by
-injecting the same typo into the desktop config (which *is* evaluated):
-
-```
-error: The option `home-manager.useGlobalpkgs' does not exist.
-Did you mean `home-manager.useGlobalPkgs', ...?
-```
-
-The two NixOS blocks spell it correctly. This bug is currently masked by 1c.
-
-### 2. A green `nix flake check --no-build` says nothing about darwin
-
-This is the most dangerous item here, because it makes the others *look*
-fine. `flake check` prints `checking flake output 'darwinConfigurations'...`
-and then never forces the config. Verified by replacing
-`hosts/macbook/darwin-configuration.nix` with a bare
-`throw "DARWIN WAS EVALUATED"`: the check still printed `all checks passed!`
-and exited 0, while `nix eval .#darwinConfigurations.macbook-nix.system`
-failed immediately. Even a direct `throw` placed as a sibling inside the
-`darwinConfigurations` attribute set went unnoticed.
-
-**Consequence for agents:** you cannot verify darwin work with the sanctioned
-command. If a task touches darwin, say so explicitly rather than reporting a
-green check as success. `desktop-nix` and `mbp2015-linux` *are* genuinely
-evaluated by the check (proven: injecting the 1d typo into `desktop-nix`
-failed the check).
-
-### 3. `mbp2015-linux` cannot be checked or rebuilt yet
+### 2. `mbp2015-linux` cannot be checked or rebuilt yet
 
 `hosts/mbp2015-linux/configuration.nix:10` keeps
 `# ./hardware-configuration.nix` commented out, and that file does not exist
@@ -217,7 +186,7 @@ The MBP is otherwise fully wired: its home-manager config imports the same
 modules as the desktop (minus `mangohud`, which is desktop-only) and its host
 config imports all four `modules/system/*` modules.
 
-### 4. Unused flake inputs (three, not two)
+### 3. Unused flake inputs
 
 `flake.nix` declares inputs that no code references, inside or outside that
 file:
@@ -232,7 +201,7 @@ Each still costs evaluation and lockfile weight. Removing them is safe but is
 a user decision, so leave them unless asked. If secrets are ever added,
 **never commit them in plaintext** — use the sops path (Rule 5).
 
-### 5. `packageOverrides` for rocm is legacy but still functional
+### 4. `packageOverrides` for rocm is legacy but still functional
 
 `hosts/desktop/configuration.nix:106` uses the deprecated
 `nixpkgs.config.packageOverrides` to rebuild btop with `rocmSupport = true`:
@@ -254,13 +223,13 @@ probably an overlay or dropping it if rocm btop support is unwanted. Also note
 `modules/cli_tools.nix` now sets btop's *theme* through home-manager; the
 rocm override is a separate, system-level concern and the two do not conflict.
 
-### 6. Housekeeping
+### 5. Housekeeping
 
 - `hosts/desktop/hardware-configuration.nix` and `disk-config.nix` are
   machine-generated/install-time files (Rule 4: **mistakes here brick
   installs**). `disk-config.nix` is used only at install time.
 - `flake.nix` mixes release channels: nixpkgs/home-manager on 26.05,
-  nix-darwin on 26.11. See 1c.
+  nix-darwin on 26.11 (out of scope — see "Scope").
 - The sanctioned verification is `--no-build`, so a clean check never proves
   packages *compile*, nor that runtime path targets resolve. Two live
   examples: the `~/.config/{nvim,zsh,wezterm}` out-of-store symlinks assume
@@ -279,3 +248,5 @@ rocm override is a separate, system-level concern and the two do not conflict.
 4. If a change touches partitioning (`disk-config.nix`) or bootloader config,
    flag it: mistakes brick installs, not just builds.
 5. Never modify `flake.lock` directly and never add secrets to the repo.
+6. Keep work scoped to `desktop-nix` and `mbp2015-linux`. Never modify the
+   darwin/macbook placeholders (see "Scope"). Do not remove them either.
