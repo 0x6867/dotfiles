@@ -12,6 +12,7 @@
     ../../modules/system/housekeeping.nix
     ../../modules/system/audio.nix
     ../../modules/system/cosmic.nix
+    ../../modules/system/flatpak.nix
     ../../modules/steam.nix
     #../../modules/system/niri.nix
   ];

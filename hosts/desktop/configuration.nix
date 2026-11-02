@@ -15,6 +15,7 @@
       ../../modules/system/docker.nix
       ../../modules/system/virt-manager.nix
       ../../modules/system/housekeeping.nix
+      ../../modules/system/flatpak.nix
     ];
 
   # Use the systemd-boot EFI boot loader.

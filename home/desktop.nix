@@ -19,6 +19,7 @@
      ../modules/http_utils.nix
      ../modules/photography.nix
      ../modules/ai.nix
+     ../modules/nodejs.nix
      ../modules/remote.nix
      # home-manager-only module: no NixOS programs.mangohud exists, so this
      # is imported here rather than from the host config. Desktop-only.

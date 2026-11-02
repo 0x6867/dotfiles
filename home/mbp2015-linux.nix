@@ -17,6 +17,7 @@
      ../modules/http_utils.nix
      ../modules/photography.nix
      ../modules/ai.nix
+     ../modules/nodejs.nix
      ../modules/remote.nix
      #../modules/steam.nix
      # modules/mangohud.nix is intentionally NOT imported here: Mangohud is
