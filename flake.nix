@@ -7,9 +7,8 @@
       # Official NixOS, Darwin, HM Package Sources
       # Source Packages
       nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-26.05";
-      nixpkgs_mac.url = "github:nixos/nixpkgs?ref=nixos-26.05";
-
-      # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+      #nixpkgs_mac.url = "github:nixos/nixpkgs?ref=nixos-26.05";
+      nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
       # nixos-hardware.url = "github:nixos/nixos-hardware"
 
       # Darwin (Mac) Nix package manager

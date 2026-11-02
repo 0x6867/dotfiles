@@ -18,6 +18,7 @@
      ../modules/photography.nix
      ../modules/ai.nix
      ../modules/remote.nix
+     #../modules/steam.nix
      # modules/mangohud.nix is intentionally NOT imported here: Mangohud is
      # desktop-only (it belongs with modules/steam.nix's scope).
    ];
@@ -34,6 +35,5 @@
    programs.bash = {
       enable = true;
    };
-
 
 }
